@@ -64,14 +64,13 @@ void output_all_records(int fd)
 
 void put_record(int fd, int id, record r)
 {
-    lock(fd, id);
     lseek(fd, id * sizeof(record), SEEK_SET);
     write(fd, &r, sizeof(record));
-    unlock(fd, id);
 }
 
 void change_record(int fd, int id)
 {
+    lock(fd, id);
     record temp = get_record(fd, id);
     output_record(temp, id);
     char str[80];
@@ -83,6 +82,7 @@ void change_record(int fd, int id)
     scanf("%hhu", &temp.semester);
     put_record(fd, id, temp);
     printf("Record changed!\n");
+    unlock(fd, id);
 }
 
 void add_record(int fd)
