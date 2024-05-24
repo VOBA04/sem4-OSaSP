@@ -13,8 +13,8 @@ typedef struct
 record random_record()
 {
     record res;
-    sprintf(res.name, "Student_%d", rand());
-    sprintf(res.address, "Street %d, building %d", rand(), rand());
+    sprintf(res.name, "Student_%d", rand() % 100);
+    sprintf(res.address, "Street %d, building %d", rand() % 100, rand() % 100);
     res.semester = rand() % 6 + 1;
     return res;
 }
