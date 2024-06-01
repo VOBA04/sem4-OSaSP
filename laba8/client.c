@@ -54,7 +54,7 @@ int main()
     struct sockaddr_in sa =
         {
             .sin_family = AF_INET,
-            .sin_addr.s_addr = inet_addr("127.0.0.1"),
+            .sin_addr.s_addr = inet_addr("127.0.0.1"), // INADDR_LOOPBACK localhost
             .sin_port = htons(8080)};
     if (connect(client, (struct sockaddr *)&sa, sizeof(sa)) == 1)
     {

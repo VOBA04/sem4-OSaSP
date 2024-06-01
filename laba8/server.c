@@ -19,7 +19,8 @@
 
 int client_count = 0;
 int client_max_count;
-char ROOT_DIR[] = "/mnt/D/University/cs/sem4";
+char *ROOT_DIR;
+char DEFAULT_ROOT_DIR[] = "/mnt/D/University/cs/sem4";
 sig_atomic_t run = 1;
 int server;
 int *clients_fd;
@@ -239,6 +240,11 @@ int main(int argc, char *argv[])
         return 0;
     }
     // client_max_count = 5;
+    if ((ROOT_DIR = getenv("ROOT_DIR")) == NULL)
+    {
+        ROOT_DIR = (char *)malloc(strlen(DEFAULT_ROOT_DIR));
+        strcpy(ROOT_DIR, DEFAULT_ROOT_DIR);
+    }
     pthread_t *client_threads = (pthread_t *)malloc(client_max_count * sizeof(pthread_t));
     clients_fd = (int *)malloc(client_max_count * sizeof(int));
     clients_flags = (bool *)calloc(client_max_count, sizeof(bool));
@@ -285,7 +291,7 @@ int main(int argc, char *argv[])
             client_data->number = number;
             pthread_create(&client_threads[number], NULL, Client, (void *)client_data);
             client_count++;
-            printf("Client %d connected\n", number - 1);
+            printf("Client %d connected\n", number);
             clients_fd[number] = client;
             clients_flags[number] = true;
         }
